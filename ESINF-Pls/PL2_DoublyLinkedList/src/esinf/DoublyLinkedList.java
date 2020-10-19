@@ -175,26 +175,41 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
         
         @Override
         public boolean hasNext() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return this.nextNode != trailer;
         }
 
         @Override
         public E next() throws NoSuchElementException {
             checkForComodification();
-            
-            throw new UnsupportedOperationException("Not supported yet.");
+            if (this.hasNext()){
+                this.prevNode = nextNode;
+                lastReturnedNode = this.nextNode;
+                this.nextNode = nextNode.getNext();
+                nextIndex++;
+                return lastReturnedNode.getElement();
+            }
+            lastReturnedNode= null;
+            throw new NoSuchElementException();
         }
 
         @Override
         public boolean hasPrevious() {            
-            throw new UnsupportedOperationException("Not supported yet.");
+            return this.prevNode != header;
         }
 
         @Override
         public E previous() throws NoSuchElementException{
             checkForComodification();
-            
-            throw new UnsupportedOperationException("Not supported yet.");
+
+            if (hasPrevious()) {
+                lastReturnedNode = this.prevNode;
+                this.nextNode = prevNode;
+                this.prevNode = prevNode.getPrev();
+                nextIndex--;
+                return lastReturnedNode.getElement();
+            }
+            lastReturnedNode = null;
+            throw new NoSuchElementException();
         }
 
         @Override
