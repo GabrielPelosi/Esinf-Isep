@@ -14,6 +14,6 @@ Exercícios e trabalhos praticos da cadeira Esinf(Isep) do ano de 2020/2021
 * PL3 - Complexidade dos Algoritmos de Ordernação.
 
 
-# Esinf- Trabalhos Praticos
-## Trabalhos praticos avalidos nessa cadeira ##
+# [Esinf- Trabalhos Praticos](https://github.com/GabrielPelosi/Esinf-Isep/tree/main/ESINF-TRABALHOS-PRATICOS)
+## Trabalhos praticos ##
 * Trabalho Pratico 1 - 
