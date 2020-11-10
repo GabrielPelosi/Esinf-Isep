@@ -11,6 +11,7 @@ Exercícios e trabalhos praticos da cadeira Esinf(Isep) do ano de 2020/2021
 ## Exercícios resolvidos nas aulas Pls ##
 * PL1 - Recursividade
 * Pl2 - Inclui 2.1 e 2.2 (DoublyLinkedList)
+* PL3 - Complexidade dos Algoritmos de Ordernação.
 
 
 # Esinf- Trabalhos Praticos
