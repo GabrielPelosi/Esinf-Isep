@@ -3,11 +3,8 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-/**
- *
- * @author DEI-ESINF
- */
 
 public class AdjacencyMatrixGraph<V, E> implements BasicGraph<V, E>, Cloneable {
 
@@ -175,8 +172,23 @@ public class AdjacencyMatrixGraph<V, E> implements BasicGraph<V, E>, Cloneable {
      * @return collection of vertices connected to vertex, null if vertex 
      * does not exist in the graph
      */
-    public Iterable<V> directConnections(V vertex) {       
-        throw new UnsupportedOperationException("Not supported yet.");	
+    public Iterable<V> directConnections(V vertex) {
+        List<V> directConnections = new ArrayList<>();
+        int index = toIndex(vertex);
+
+        if (index < 0 || index > numVertices) {
+            //throw new FileNotFoundException();
+            return null;
+        }
+
+        for (int i = 0; i < numVertices; i++) {
+            E ramo = edgeMatrix[index][i];
+            if (ramo != null) {
+                directConnections.add(vertices.get(i));
+            }
+        }
+
+        return directConnections;
     }
 
 	
@@ -188,7 +200,22 @@ public class AdjacencyMatrixGraph<V, E> implements BasicGraph<V, E>, Cloneable {
      * not exist in the graph
      */
     public Iterable<E> outgoingEdges(V vertex) {
-        throw new UnsupportedOperationException("Not supported yet.");	
+        List<E> outgoingEdges = new ArrayList<>();
+        int index = toIndex(vertex);
+
+        if (index < 0 || index > numVertices) {
+            //throw new FileNotFoundException();
+            return null;
+        }
+
+        for (int i = 0; i < numVertices; i++) {
+            E ramo = edgeMatrix[index][i];
+            if (ramo != null) {
+                outgoingEdges.add(ramo);
+            }
+        }
+
+        return outgoingEdges;
     }
 
     /**
