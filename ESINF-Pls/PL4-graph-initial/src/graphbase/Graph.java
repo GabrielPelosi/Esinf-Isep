@@ -42,6 +42,22 @@ public class Graph<V,E> implements GraphInterface<V,E> {
     }
     
     public int getKey(V vert) { return vertices.get(vert).getKey(); }
+
+    public V[] allkeyVerts() {
+
+        //V[] keyverts = (V[]) new Object[numVert];
+        V  vertElem = null;
+        for (Vertex<V,E> vert : vertices.values())
+            vertElem = vert.getElement() ;            // To get type
+
+        V[] keyverts = (V [])Array.newInstance(vertElem.getClass(), numVert);
+
+        for (Vertex<V,E> vert : vertices.values())
+            keyverts[vert.getKey()]=vert.getElement();
+
+        return keyverts;
+    }
+
     
     public Iterable<V> adjVertices(V vert){ 
         
