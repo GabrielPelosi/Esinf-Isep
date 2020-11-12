@@ -1,10 +1,7 @@
 
 package graph;
 
-/**
- *
- * @author DEI-ESINF
- */
+
 public interface BasicGraph<V,E> {	
 
   /** Returns the number of vertices in the graph 
