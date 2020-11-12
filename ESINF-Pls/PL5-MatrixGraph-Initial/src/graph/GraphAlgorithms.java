@@ -1,6 +1,7 @@
 
 package graph;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Iterator;
 
@@ -59,7 +60,25 @@ public class GraphAlgorithms {
      * @return queue of vertices found by search (empty if none), null if vertex does not exist
      */
     public static <V,E> LinkedList<V> DFS(AdjacencyMatrixGraph<V,E> graph, V vertex) {
-     throw new UnsupportedOperationException("Not supported yet.");	
+
+        int index = graph.toIndex(vertex);
+
+        if (index < 0) {
+            return null;
+        }
+
+        boolean[] knownVertices = new boolean[graph.numVertices];
+        Arrays.fill(knownVertices, Boolean.FALSE);
+
+        // Arrange linked list and add first vertex
+        LinkedList<V> verticesQueue = new LinkedList<>();
+
+        // Start recursion
+        //DFS(graph, index, knownVertices, verticesQueue);
+
+        System.out.println(verticesQueue);
+
+        return verticesQueue;
     }
 
     /**
@@ -71,7 +90,7 @@ public class GraphAlgorithms {
      *
      */
     static <V,E> void DFS(AdjacencyMatrixGraph<V,E> graph, int index, LinkedList<V> verticesQueue) {
-    		throw new UnsupportedOperationException("Not supported yet.");	
+
     }
     
 
@@ -84,7 +103,20 @@ public class GraphAlgorithms {
      * @return the new graph 
      */
     public static <V, E> AdjacencyMatrixGraph<V, E> transitiveClosure(AdjacencyMatrixGraph<V, E> graph, E dummyEdge){
-            throw new UnsupportedOperationException("Not supported yet.");	
+        AdjacencyMatrixGraph<V, E> clone = (AdjacencyMatrixGraph<V, E>) graph.clone();
+
+        for (int k = 0; k < clone.numVertices; k++) {
+            for (int i = 0; i < clone.numVertices; i++) {
+                if (i != k && clone.edgeMatrix[i][k] != null) {
+                    for (int j = 0; j < clone.numVertices; j++) {
+                        if (i != j && k != j && clone.edgeMatrix[k][j] != null) {
+                            clone.edgeMatrix[i][j] = dummyEdge;
+                        }
+                    }
+                }
+            }
+        }
+        return clone;
     }
 
 }
