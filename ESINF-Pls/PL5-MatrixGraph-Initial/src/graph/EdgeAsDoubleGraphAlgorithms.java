@@ -19,8 +19,30 @@ public class EdgeAsDoubleGraphAlgorithms {
      * @param minDist minimum distances in the path
      *
      */
-    private static <V> void shortestPath(AdjacencyMatrixGraph<V,Double> graph, int sourceIdx, boolean[] knownVertices, int[] verticesIndex, double [] minDist){  
-        throw new UnsupportedOperationException("Not supported yet.");
+    private static <V> void shortestPath(AdjacencyMatrixGraph<V,Double> graph, int sourceIdx, boolean[] knownVertices, int[] verticesIndex, double [] minDist){
+        minDist[sourceIdx] = 0;
+        while (sourceIdx != -1) {
+            knownVertices[sourceIdx] = true;
+            for (V vx : graph.vertices()) {
+                int vAdj = graph.toIndex(vx);
+                Double edge = graph.privateGet(sourceIdx, vAdj);
+                if (edge != null) {
+                    if (!knownVertices[vAdj] && minDist[vAdj] > minDist[sourceIdx] + edge) {
+                        minDist[vAdj] = minDist[sourceIdx] + edge;
+                        verticesIndex[vAdj] = sourceIdx;
+                    }
+                }
+            }
+
+            Double min = Double.MAX_VALUE;
+            sourceIdx = -1;
+            for (int i = 0; i < graph.numVertices; i++) {
+                if (!knownVertices[i] && minDist[i] < min) {
+                    min = minDist[i];
+                    sourceIdx = i;
+                }
+            }
+        }
     }
 
     /**
