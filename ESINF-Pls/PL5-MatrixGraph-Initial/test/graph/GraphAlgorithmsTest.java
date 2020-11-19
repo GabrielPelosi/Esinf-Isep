@@ -190,4 +190,45 @@ public class GraphAlgorithmsTest {
 		assertEquals(4, result.inDegree("Coimbra"));
 	}
 
+
+	@Test
+	public void testAllPaths() {
+
+		System.out.println("Test of all paths");
+
+		LinkedList<LinkedList<String>> paths = new LinkedList<LinkedList<String>>();
+
+		assertFalse("Should be false if vertex does not exist",
+				GraphAlgorithms.allPaths(completeMap, "Porto", "LX", paths));
+
+		assertTrue("There should be paths between Porto and Lisboa in the map",
+				GraphAlgorithms.allPaths(incompleteMap, "Porto", "Lisboa", paths));
+
+		assertTrue("Should give 4 paths", paths.size() == 4);
+
+		Iterator<LinkedList<String>> it = paths.iterator();
+
+		// First path should be Porto, Aveiro, Coimbra, Leiria, Lisboa
+		// Second path should be Porto, Aveiro, Coimbra, Lisboa
+		// Third path should be Porto, Aveiro, Leiria, Coimbra, Lisboa
+		// Fourth path shuold be Porto, Aveiro, Leiria, Lisboa
+		String[][] pathsString = {{"Porto", "Aveiro", "Coimbra", "Leiria", "Lisboa"},
+				{"Porto", "Aveiro", "Coimbra", "Lisboa"},
+				{"Porto", "Aveiro", "Leiria", "Coimbra", "Lisboa"},
+				{"Porto", "Aveiro", "Leiria", "Lisboa"}};
+
+		for (int i = 0; i < 4; i++) {
+			LinkedList<String> path = it.next();
+			Iterator<String> cities = path.iterator();
+			for (int j = 0; j < path.size(); j++) {
+				assertTrue("City should be" + pathsString[i][j], cities.next().compareTo(pathsString[i][j]) == 0);
+			}
+		}
+
+		GraphAlgorithms.allPaths(incompleteMap, "Porto", "Faro", paths);
+
+		assertTrue("There should not be paths between Porto and Faro in the incomplete map", paths.size() == 0);
+	}
+
+
 }
