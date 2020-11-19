@@ -38,6 +38,7 @@ public class GraphAlgorithms {
         resultQueue.add(graph.vertices.get(index));
         auxQueue.add(index);
 
+
         while(!auxQueue.isEmpty()){
             index=auxQueue.remove(); 
             for (int i = 0 ; i < graph.numVertices ; i++){
@@ -90,7 +91,16 @@ public class GraphAlgorithms {
      *
      */
     static <V,E> void DFS(AdjacencyMatrixGraph<V,E> graph, int index, LinkedList<V> verticesQueue) {
+        /*
+        knownVertices[index] = true;
+        for (int i = 0; i < graph.numVertices; i++) {
+            if (graph.edgeMatrix[index][i] != null && knownVertices[i] == false) {
+                verticesQueue.add(graph.vertices.get(i));
+                DFS(graph, i, knownVertices, verticesQueue);
+            }
+        }
 
+         */
     }
     
 
@@ -117,6 +127,75 @@ public class GraphAlgorithms {
             }
         }
         return clone;
+    }
+
+
+
+    /**
+     * All paths between two vertices Calls recursive version of the method.
+     *
+     * @param graph Graph object
+     * @param source Source vertex of path
+     * @param dest Destination vertex of path
+     * @param path LinkedList with paths (queues)
+     * @return false if vertices not in the graph
+     *
+     */
+    public static <V, E> boolean allPaths(AdjacencyMatrixGraph<V, E> graph, V source, V dest, LinkedList<LinkedList<V>> paths) {
+        int sourceIdx = graph.toIndex(source);
+        if (sourceIdx == -1) {
+            return false;
+        }
+
+        int destIdx = graph.toIndex(dest);
+        if (destIdx == -1) {
+            return false;
+        }
+
+        paths.clear();
+        boolean[] knownVertices = new boolean[graph.numVertices];
+        LinkedList<V> auxStack = new LinkedList<>();
+
+        allPaths(graph, sourceIdx, destIdx, knownVertices, auxStack, paths);
+        return !paths.isEmpty();
+
+    }
+
+    /**
+     * Actual paths search The method adds vertices to the current path (stack
+     * of vertices) when destination is found, the current path is saved to the
+     * list of paths
+     *
+     * @param graph Graph object
+     * @param sourceIdx Index of source vertex
+     * @param destIdx Index of destination vertex
+     * @param knownVertices previously discovered vertices
+     * @param auxStack stack of vertices in the path
+     * @param path LinkedList with paths (queues)
+     *
+     */
+    static <V, E> void allPaths(AdjacencyMatrixGraph<V, E> graph, int sourceIdx, int destIdx, boolean[] knownVertices, LinkedList<V> auxStack, LinkedList<LinkedList<V>> paths) {
+        auxStack.push(graph.vertices.get(sourceIdx));
+        knownVertices[sourceIdx] = true;
+        for (int i = 0; i < graph.numVertices; i++) {
+            if (graph.edgeMatrix[sourceIdx][i] != null) {
+                if (i == destIdx) {
+                    auxStack.push(graph.vertices.get(i));
+                    LinkedList<V> listaAdicionar = new LinkedList<>();
+                    for (V vtx : auxStack) {
+                        listaAdicionar.push(vtx);
+                    }
+                    paths.add(listaAdicionar);
+                    auxStack.pop();
+                } else {
+                    if (knownVertices[i] == false) {
+                        allPaths(graph, i, destIdx, knownVertices, auxStack, paths);
+                    }
+                }
+            }
+        }
+        knownVertices[sourceIdx] = false;
+        auxStack.pop();
     }
 
 }
