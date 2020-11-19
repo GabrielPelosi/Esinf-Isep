@@ -2,7 +2,10 @@
 package graphexamples;
 
 import graph.AdjacencyMatrixGraph;
+import graph.GraphAlgorithms;
+
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  * A class to represent a labyrinth map with rooms, doors and exits
@@ -15,6 +18,21 @@ import java.util.LinkedList;
 public class LabyrinthCheater {
 
     private class Room{
+        private String name;
+        private boolean hasExit;
+
+        public Room(String name, boolean hasExit){
+            this.name=name;
+            this.hasExit=hasExit;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Room room = (Room) o;
+            return name.equals(room.name);
+        }
     }
 
     private class Door{
@@ -32,7 +50,7 @@ public class LabyrinthCheater {
      * @return false if city exists in the map
      */
     public boolean insertRoom(String name, boolean hasExit){
-        throw new UnsupportedOperationException("Not supported yet.");	
+        return map.insertVertex(new Room(name,hasExit));
     }
 
     /**
@@ -43,7 +61,7 @@ public class LabyrinthCheater {
      * @return false if a room does not exist or door already exists between rooms
      */
     public boolean insertDoor(String from, String to){
-        throw new UnsupportedOperationException("Not supported yet.");	
+        return map.insertEdge(new Room(from,true),new Room(to,true),new Door());
     }
 
     /**
@@ -52,7 +70,15 @@ public class LabyrinthCheater {
      * @return list of room names or null if room does not exist
      */
     public Iterable<String> roomsInReach(String room, boolean hasExit){
-        throw new UnsupportedOperationException("Not supported yet.");	
+        if(!map.checkVertex(new Room(room,hasExit))) return null;
+        //nao funciona pois DFS não implementando, mas o codigo está correto.
+        LinkedList<Room> rooms = GraphAlgorithms.DFS(map,new Room(room,false));
+
+        LinkedList<String> names = new LinkedList<>();
+        for (Room r : rooms){
+            names.add(r.name);
+        }
+        return names;
     }
 
     /**
@@ -61,7 +87,14 @@ public class LabyrinthCheater {
      * @return room name or null if from room does not exist or there is no reachable exit
      */
     public String nearestExit(String room){
-        throw new UnsupportedOperationException("Not supported yet.");	
+        if (!map.checkVertex(new Room(room,false))) return null;
+
+        LinkedList<Room> rooms = GraphAlgorithms.BFS(map,new Room(room,false));
+
+        for (Room r: rooms){
+            if (r.hasExit) return r.name;
+        }
+        return null;
     }
 
     
